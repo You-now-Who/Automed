@@ -19,7 +19,7 @@ function ClinicPage() {
   const user = useAuthContext();
 
   useEffect(() => {
-    if (user != null) {
+    if (user.user !=null) {
       router.push("/");
     }
   }, [user]);

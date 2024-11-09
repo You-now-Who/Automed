@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { docSignUp } from "@/app/_authModules/_authFunctions/signup";
 import { useAuthContext } from "@/app/_authModules/_authFunctions/AuthContext";
+import { get } from "firebase/database";
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 
 function DoctorPage() {
   const [clinicCode, setClinicCode] = useState("");
@@ -20,9 +22,28 @@ function DoctorPage() {
     console.log("Clinic Code: ", clinicCode);
     console.log("Name: ", name);
     console.log("Email: ", email);
+
+    // Check if clinic exists in database
+    const db = getFirestore();
+    const clinicRef = collection(db, "clinics");
+    const q = query(clinicRef, where("clinicCode", "==", clinicCode));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      alert("Clinic code does not exist.");
+      return;
+    }
     
     const { result, error } = await docSignUp(email, password, name, clinicCode);
     if (error) {
+      // If error is email already exists, show a message to user
+      if (error.code === "auth/email-already-in-use") {
+        alert("Email already in use.");
+      }
+      else if (error.code === "auth/weak-password") {
+        alert("Password is too weak.");
+      }
+      
       console.log("Error: ", error);
     } else {
       console.log("Result: ", result);
@@ -30,9 +51,9 @@ function DoctorPage() {
   }
 
   useEffect(() => {
-    if (user != null) {
-      router.push("/");
-    }
+    // if (user.user !=null) {
+    //   router.push("/");
+    // }
   }, [user]);
 
   return (

@@ -15,7 +15,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
 
     useEffect(() => {
-        if (user != null) {
+        if (user.user !=null) {
             router.push("/");
         }
     }

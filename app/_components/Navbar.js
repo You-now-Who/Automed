@@ -3,14 +3,16 @@ import { useRouter } from "next/navigation";
 import { getAuth } from 'firebase/auth'
 
 function Navbar({ user }) {
+const router = useRouter();
 
 const handleLogout = async (e) => {
     e.preventDefault();
     const auth = getAuth();
     await auth.signOut();
-    return router.push("/auth/login");
+    return router.push("/auth/register/doctor");
     }
 
+// console.log(user);
 
 return (
     <>
@@ -18,7 +20,7 @@ return (
             <div className="container mx-auto flex justify-between items-center">
                 <div className="text-gray-800 font-bold text-xl">AutoMed</div>
                 <div className="space-x-4">
-                    {user == null ? (
+                    {user.user == null ? (
                         <>
                             <a href="/auth/login">
                                 <button className="outline py-2 px-4 mr-3 rounded hover:shadow-md shadow-sm transition-all duration-200 transform hover:scale-105">Login</button>
