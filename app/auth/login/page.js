@@ -1,19 +1,35 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
 import Link from "next/link"
+import { useAuthContext } from '@/app/_authModules/_authFunctions/AuthContext';
+import signIn from '@/app/_authModules/_authFunctions/signin';
 
 const LoginPage = () => {
     const [error, setError] = useState("");
     const router = useRouter();
+    const user = useAuthContext();
 
     const [clinicCode, setClinicCode] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    useEffect(() => {
+        if (user != null) {
+            router.push("/");
+        }
+    }
+    , [user]);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("Clinic Code: ", clinicCode);
+        
+        const { result, error } = await signIn(email, password);
+        if (error) {
+            setError(error.message);
+        } else {
+            console.log("Result: ", result);
+        }
     };
 
     return (

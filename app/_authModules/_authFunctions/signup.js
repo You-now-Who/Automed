@@ -6,7 +6,7 @@ import { set } from "firebase/database";
 
 const auth = getAuth(firebase_app);
 
-export async function partnerSignUp(email, password, phoneNum, name) {
+export async function clinicSignUp(email, password, nic, name) {
     let result = null,
         error = null;
     try {
@@ -17,10 +17,8 @@ export async function partnerSignUp(email, password, phoneNum, name) {
             setDoc(doc(collection(db, "users"), user.uid), {
             email: email,
             name: name,
-            phoneNum: phoneNum,
-            apps: [],
-            joinedApps: [],
-            role: "partner"
+            nic: nic,
+            role: "clinic"
             })
             .then(() => {
             })
@@ -36,7 +34,7 @@ export async function partnerSignUp(email, password, phoneNum, name) {
     return { result, error };
 }
 
-export async function userSignUp(email, password, phoneNum, name) {
+export async function docSignUp(email, password, name, clinic_code) {
     let result = null,
         error = null;
     try {
@@ -46,10 +44,9 @@ export async function userSignUp(email, password, phoneNum, name) {
             const user = userCredential.user;
             setDoc(doc(collection(db, "users"), user.uid), {
             name: name,
-            phoneNum: phoneNum,
             email: email,
-            joinedApps: [],
-            role: "user"
+            clinic_code: clinic_code,
+            role: "doctor"
             })
             .then(() => {
             })
@@ -61,6 +58,5 @@ export async function userSignUp(email, password, phoneNum, name) {
     } catch (e) {
         error = e;
     }
-
     return { result, error };
 }

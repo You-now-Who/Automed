@@ -6,7 +6,7 @@ import {
     getAuth,
 } from 'firebase/auth';
 import firebase_app from '../config';
-import { PropagateLoader } from 'react-spinners';
+// import { PropagateLoader } from 'react-spinners';
 
 const auth = getAuth(firebase_app);
 export const AuthContext = React.createContext({});
@@ -35,7 +35,7 @@ export const AuthContextProvider = ({
     return (
         <AuthContext.Provider value={{ user }}>
             
-                {loading ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}> <PropagateLoader /> </div> : children}
+                {loading ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}> Loading... </div> : children}
         </AuthContext.Provider>
     );
 };

@@ -1,5 +1,9 @@
 'use client'
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";;
+import { useRouter } from "next/navigation";
+import { clinicSignUp } from "@/app/_authModules/_authFunctions/signup";
+import { useAuthContext } from "@/app/_authModules/_authFunctions/AuthContext";
+
 
 function ClinicPage() {
   // State for form inputs
@@ -10,8 +14,18 @@ function ClinicPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [file, setFile] = useState(null);
 
+  const router = useRouter();
+
+  const user = useAuthContext();
+
+  useEffect(() => {
+    if (user != null) {
+      router.push("/");
+    }
+  }, [user]);
+
   // Form submission handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Basic form validation
@@ -34,14 +48,14 @@ function ClinicPage() {
       file,
     });
 
-    alert("Form submitted successfully!");
-    // Clear the form
-    setNpi("");
-    setName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    setFile(null);
+    // Call the signup function
+    const { result, error } = await clinicSignUp(email, password, npi, name);
+    if (error) {
+      console.log("Error: ", error);
+    } else {
+      console.log("Result: ", result);
+    }
+    
   };
 
   // File input handler

@@ -1,7 +1,9 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { docSignUp } from "@/app/_authModules/_authFunctions/signup";
+import { useAuthContext } from "@/app/_authModules/_authFunctions/AuthContext";
 
 function DoctorPage() {
   const [clinicCode, setClinicCode] = useState("");
@@ -9,17 +11,29 @@ function DoctorPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [conPassword, setConPassword] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({
-      clinicCode,
-      name,
-      email,
-      password,
-      conPassword,
-    });
+  const user = useAuthContext();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("Clinic Code: ", clinicCode);
+    console.log("Name: ", name);
+    console.log("Email: ", email);
+    
+    const { result, error } = await docSignUp(email, password, name, clinicCode);
+    if (error) {
+      console.log("Error: ", error);
+    } else {
+      console.log("Result: ", result);
+    }
   }
+
+  useEffect(() => {
+    if (user != null) {
+      router.push("/");
+    }
+  }, [user]);
 
   return (
     <>
