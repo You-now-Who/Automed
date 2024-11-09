@@ -35,7 +35,7 @@ return (
                     </button>
                 </div>
                 <div className="flex justify-center pt-24">
-                    <video className="w-7/12 h-auto max-w-full shadow-2xl" controls>
+                    <video className="w-7/12 h-auto max-w-full shadow-2xl rounded-2xl" controls>
                         <source
                             src="https://file-examples.com/storage/fe504ae8c8672e49a9e2d51/2017/04/file_example_MP4_1920_18MG.mp4"
                             type="video/mp4"
