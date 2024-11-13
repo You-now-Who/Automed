@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { useRouter } from "next/navigation";
 import { getAuth } from 'firebase/auth'
@@ -9,7 +10,7 @@ const handleLogout = async (e) => {
     e.preventDefault();
     const auth = getAuth();
     await auth.signOut();
-    return router.push("/auth/register/doctor");
+    return router.push("/auth/login");
     }
 
 // console.log(user);

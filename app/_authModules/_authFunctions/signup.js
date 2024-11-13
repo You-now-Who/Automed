@@ -9,31 +9,34 @@ export async function clinicSignUp(email, password, nic, name) {
     let result = null,
         error = null;
     try {
-        result = await createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // The user has been created, now we can store additional user data in Firestore
-            const user = userCredential.user;
-            setDoc(doc(collection(db, "users"), user.uid), {
+        result = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        ).then((userCredential) => {
+          // The user has been created, now we can store additional user data in Firestore
+          const user = userCredential.user;
+          setDoc(doc(collection(db, "users"), user.uid), {
             email: email,
             name: name,
             nic: nic,
-            role: "clinic"
-            })
+            role: "clinic",
+          })
             .then(() => {
-                // Add the clinic to the clinics collection
-                setDoc(doc(collection(db, "clinics"), user.uid), {
-                    email: email,
-                    name: name,
-                    nic: nic,
-                    role: "clinic",
-                    doctors: [],
-                    clinicCode: user.uid 
-                })
+              // Add the clinic to the clinics collection
+              setDoc(doc(collection(db, "clinics"), user.uid), {
+                email: email,
+                name: name,
+                nic: nic,
+                role: "clinic",
+                doctors: [],
+                clinicCode: user.uid,
+              });
             })
             .catch((error) => {
-            console.error("Error adding document: ", error);
+              console.error("Error adding document: ", error);
             });
-        })
+        });
 
     } catch (e) {
         error = e;

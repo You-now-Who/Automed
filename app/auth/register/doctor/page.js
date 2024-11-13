@@ -51,9 +51,9 @@ function DoctorPage() {
   }
 
   useEffect(() => {
-    // if (user.user !=null) {
-    //   router.push("/");
-    // }
+    if (user.user !=null) {
+      router.push("/");
+    }
   }, [user]);
 
   return (
@@ -155,7 +155,7 @@ function DoctorPage() {
               </div>
               <button
                 type="submit"
-                className="w-full py-2 px-4 bg-gray-800/90 hover:bg-gray-900 text-white font-semibold rounded-md shadow-sm backdrop-blur-sm"
+                className="w-full py-2 px-4 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-md shadow-sm backdrop-blur-sm"
               >
                 Sign In
               </button>

@@ -1,9 +1,10 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function RegisterPage() {
   // State to track user selection
   const [selectedOption, setSelectedOption] = useState("");
+
 
   // Handle option selection
   const handleSelection = (option) => {

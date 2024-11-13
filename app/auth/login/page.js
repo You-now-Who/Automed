@@ -27,6 +27,11 @@ const LoginPage = () => {
         const { result, error } = await signIn(email, password);
         if (error) {
             setError(error.message);
+            console.log("Error: ", error);
+            // If error is email is wrong, show a message to user
+            if (error.code === "auth/invalid-credential") {
+                alert("Wrong email or password.");
+            }
         } else {
             console.log("Result: ", result);
         }
@@ -46,7 +51,7 @@ const LoginPage = () => {
                     </div>
                     <h2 className="text-3xl font-bold mb-8 text-gray-900">Sign in to your account</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-4">
+                        {/* <div className="mb-4">
                             <label htmlFor="clinic_code" className="block text-sm font-medium text-gray-700">Clinic Code</label>
                             <input 
                                 type="text" 
@@ -56,7 +61,7 @@ const LoginPage = () => {
                                 value={clinicCode}
                                 onChange={(e) => setClinicCode(e.target.value)}
                             />
-                        </div>
+                        </div> */}
                         <div className="mb-4">
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                             <input 
@@ -81,7 +86,7 @@ const LoginPage = () => {
                         </div>
                         <button 
                             type="submit" 
-                            className="w-full py-2 px-4 bg-gray-800/90 hover:bg-gray-900 text-white font-semibold rounded-md shadow-sm backdrop-blur-sm">
+                            className="w-full py-2 px-4 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-md shadow-sm backdrop-blur-sm">
                             Sign In
                         </button>
                         <p className="mt-4 text-center">
